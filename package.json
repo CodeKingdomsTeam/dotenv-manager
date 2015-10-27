@@ -1,27 +1,27 @@
 {
-	"name": "dotenv-manager",
-	"version": "1.0.0",
-	"description": "Read ENV entries by executing a list of JS scripts and write the environment files",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeKingdomsTeam/dotenv-manager.git"
-	},
-	"keywords": [
-		"dotenv"
-	],
-	"author": "Andrew Moss",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/CodeKingdomsTeam/dotenv-manager/issues"
-	},
-	"homepage": "https://github.com/CodeKingdomsTeam/dotenv-manager#readme",
-	"dependencies": {
-		"argparse": "^1.0.2",
-		"lodash": "^3.10.1"
-	},
-	"preferGlobal": true,
-	"bin": {
-		"dotenv-manager": "main.js"
-	}
+  "name": "dotenv-manager",
+  "version": "1.0.1",
+  "description": "Read ENV entries by executing a list of JS scripts and write the environment files",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeKingdomsTeam/dotenv-manager.git"
+  },
+  "keywords": [
+    "dotenv"
+  ],
+  "author": "Andrew Moss",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeKingdomsTeam/dotenv-manager/issues"
+  },
+  "homepage": "https://github.com/CodeKingdomsTeam/dotenv-manager#readme",
+  "dependencies": {
+    "argparse": "^1.0.2",
+    "lodash": "^3.10.1"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "dotenv-manager": "main.js"
+  }
 }
