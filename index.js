@@ -5,9 +5,10 @@ var _ = require( 'lodash' );
 var fs = require( 'fs' );
 var path = require( 'path' );
 
-var DotenvManager = function( files ) {
+var DotenvManager = function( files, writeJson ) {
 
 	this.files = files;
+	this.writeJson = writeJson;
 };
 
 
@@ -47,6 +48,15 @@ DotenvManager.prototype = {
 				return key + '=' + val;
 
 			} ).join( '\n' ) );
+
+			if ( this.writeJson ) {
+
+				outPath = path.join( project, '.env.json' );
+
+				console.log( 'Writing', outPath );
+
+				fs.writeFileSync( outPath, JSON.stringify( env, null, 2 ) );
+			}
 		} else {
 
 			throw new Error( project + ' is not a directory' );

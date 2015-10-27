@@ -18,9 +18,13 @@ parser.addArgument( [ 'files' ], {
 	nargs: '+'
 } );
 
+parser.addArgument( [ '--writeJson' ], {
+	help: 'If true will also write an .env.json file alongside the .env',
+} );
+
 var args = parser.parseArgs();
 
 var DotenvManager = require( './index.js' );
 
-var manager = new DotenvManager( args.files );
+var manager = new DotenvManager( args.files, args.writeJson );
 manager.run();
