@@ -37,7 +37,9 @@ DotenvManager.prototype = {
 
 	_writeEnvForProject: function( project, env ) {
 
-		if ( fs.statSync( project ).isDirectory() ) {
+		try {
+
+			fs.statSync( project ).isDirectory();
 
 			var outPath = path.join( project, '.env' );
 
@@ -57,7 +59,7 @@ DotenvManager.prototype = {
 
 				fs.writeFileSync( outPath, JSON.stringify( env, null, 2 ) );
 			}
-		} else {
+		} catch ( e ) {
 
 			console.warn( project + ' is not a directory' );
 		}
