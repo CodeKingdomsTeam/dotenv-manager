@@ -1,6 +1,6 @@
 {
   "name": "dotenv-manager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Read ENV entries by executing a list of JS scripts and write the environment files",
   "main": "index.js",
   "repository": {
