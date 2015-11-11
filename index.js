@@ -59,7 +59,7 @@ DotenvManager.prototype = {
 			}
 		} else {
 
-			throw new Error( project + ' is not a directory' );
+			console.warn( project + ' is not a directory' );
 		}
 	}
 };
