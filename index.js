@@ -1,69 +1,75 @@
 'use strict';
 /* jshint esnext: true */
 
-var _ = require( 'lodash' );
-var fs = require( 'fs' );
-var path = require( 'path' );
+var _ = require('lodash');
+var fs = require('fs');
+var path = require('path');
 
-var DotenvManager = function( files, writeJson ) {
+var DotenvManager = function(files, writeJson, only) {
 
-	this.files = files;
-	this.writeJson = writeJson;
+    this.files = files;
+    this.writeJson = writeJson;
+    this.only = only;
 };
 
 
 DotenvManager.prototype = {
 
-	run: function() {
+    run: function() {
 
-		var results = {};
+        var results = {};
 
-		_.each( this.files, ( file ) => {
+        _.each(this.files, (file) => {
 
-			var fileResults = require( path.join( process.cwd(), file ) );
+            var fileResults = require(path.join(process.cwd(), file));
 
-			results = _.merge( results, fileResults );
+            results = _.merge(results, fileResults);
 
-		} );
+        });
 
-		_.each( results, ( env, project ) => {
+        _.each(results, (env, project) => {
 
-			if ( project === 'global' ) return;
+            if (project === 'global') return;
 
-			this._writeEnvForProject( project, _.merge( {}, results.global, env ) );
+            if (this.only && project !== this.only) {
 
-		} );
-	},
+                return;
+            }
 
-	_writeEnvForProject: function( project, env ) {
+            this._writeEnvForProject(project, _.merge({}, results.global, env));
 
-		try {
+        });
+    },
 
-			fs.statSync( project ).isDirectory();
+    _writeEnvForProject: function(project, env) {
 
-			var outPath = path.join( project, '.env' );
+        try {
 
-			console.log( 'Writing', outPath );
+            fs.statSync(project).isDirectory();
 
-			fs.writeFileSync( outPath, _.map( env, ( val, key ) => {
+            var outPath = path.join(project, '.env');
 
-				return key + '=' + val;
+            console.log('Writing', outPath);
 
-			} ).join( '\n' ) );
+            fs.writeFileSync(outPath, _.map(env, (val, key) => {
 
-			if ( this.writeJson ) {
+                return key + '=' + val;
 
-				outPath = path.join( project, '.env.json' );
+            }).join('\n'));
 
-				console.log( 'Writing', outPath );
+            if (this.writeJson) {
 
-				fs.writeFileSync( outPath, JSON.stringify( env, null, 2 ) );
-			}
-		} catch ( e ) {
+                outPath = path.join(project, '.env.json');
 
-			console.warn( project + ' is not a directory' );
-		}
-	}
+                console.log('Writing', outPath);
+
+                fs.writeFileSync(outPath, JSON.stringify(env, null, 2));
+            }
+        } catch (e) {
+
+            console.warn(project + ' is not a directory');
+        }
+    }
 };
 
 module.exports = DotenvManager;
