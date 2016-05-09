@@ -5,11 +5,11 @@ var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 
-var DotenvManager = function(files, writeJson, only) {
+var DotenvManager = function(files, only, inline) {
 
     this.files = files;
-    this.writeJson = writeJson;
     this.only = only;
+    this.inline = inline;
 };
 
 
@@ -36,7 +36,19 @@ DotenvManager.prototype = {
                 return;
             }
 
-            this._writeEnvForProject(project, _.merge({}, results.global, env));
+            const mergedEnv = _.merge({}, results.global, env);
+
+            if (this.inline) {
+
+                process.stdout.write(_.map(env, (val, key) => {
+
+                    return `${key}='${val}'`;
+
+                }).join(' '));
+            } else {
+
+                this._writeEnvForProject(project, mergedEnv);
+            }
 
         });
     },
@@ -57,14 +69,12 @@ DotenvManager.prototype = {
 
             }).join('\n'));
 
-            if (this.writeJson) {
+            outPath = path.join(project, '.env.json');
 
-                outPath = path.join(project, '.env.json');
+            console.log('Writing', outPath);
 
-                console.log('Writing', outPath);
+            fs.writeFileSync(outPath, JSON.stringify(env, null, 2));
 
-                fs.writeFileSync(outPath, JSON.stringify(env, null, 2));
-            }
         } catch (e) {
 
             console.warn(project + ' is not a directory');

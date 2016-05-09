@@ -18,17 +18,19 @@ parser.addArgument(['files'], {
     nargs: '+'
 });
 
-parser.addArgument(['--writeJson'], {
-    help: 'If true will also write an .env.json file alongside the .env',
-});
-
 parser.addArgument(['--only'], {
     help: 'If set, will only write the files for one project.',
 });
+
+parser.addArgument(['--inline'], {
+    help: 'If set, will output the env to stdout instead of files.',
+    action: 'storeTrue'
+});
+
 
 var args = parser.parseArgs();
 
 var DotenvManager = require('./index.js');
 
-var manager = new DotenvManager(args.files, args.writeJson, args.only);
+var manager = new DotenvManager(args.files, args.only, args.inline);
 manager.run();
