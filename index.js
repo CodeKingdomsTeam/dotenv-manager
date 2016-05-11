@@ -59,26 +59,29 @@ DotenvManager.prototype = {
 
             fs.statSync(project).isDirectory();
 
-            var outPath = path.join(project, '.env');
-
-            console.log('Writing', outPath);
-
-            fs.writeFileSync(outPath, _.map(env, (val, key) => {
-
-                return key + '=' + val;
-
-            }).join('\n'));
-
-            outPath = path.join(project, '.env.json');
-
-            console.log('Writing', outPath);
-
-            fs.writeFileSync(outPath, JSON.stringify(env, null, 2));
-
         } catch (e) {
 
-            console.warn(project + ' is not a directory');
+            console.warn(project + ' is not a directory', e);
+
+            return;
         }
+
+        var outPath = path.join(project, '.env');
+
+        console.log('Writing', outPath);
+
+        fs.writeFileSync(outPath, _.map(env, (val, key) => {
+
+            return key + '=' + val;
+
+        }).join('\n'));
+
+        outPath = path.join(project, '.env.json');
+
+        console.log('Writing', outPath);
+
+        fs.writeFileSync(outPath, JSON.stringify(env, null, 2));
+
     }
 };
 
