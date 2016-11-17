@@ -42,7 +42,7 @@ DotenvManager.prototype = {
 
                 process.stdout.write(_.map(env, (val, key) => {
 
-                    return `${key}='${val}'`;
+                    return `${key}=${val}`;
 
                 }).join(' '));
             } else {
