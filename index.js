@@ -21,7 +21,7 @@ DotenvManager.prototype = {
 
         _.each(this.files, (file) => {
 
-            var fileResults = require(path.join(process.cwd(), file));
+            var fileResults = require(path.isAbsolute(file) ? file : path.join(process.cwd(), file));
 
             results = _.merge(results, fileResults);
 
