@@ -72,7 +72,20 @@ DotenvManager.prototype = {
 
         fs.writeFileSync(outPath, _.map(env, (val, key) => {
 
-            return key + '=' + (_.isObject(val) ? JSON.stringify(val) : val);
+            var serialisedVal;
+
+            if( _.isObject(val) ) {
+
+                serialisedVal = JSON.stringify(val);
+            } else if(/\n/.test(val) ) {
+                serialisedVal = '"' + val.replace(/\n/g, '\\n').replace(/"/g, '\\"') + '"';
+            } else {
+
+                serialisedVal = val;
+            }
+
+
+            return key + '=' + serialisedVal;
 
         }).join('\n'));
 
